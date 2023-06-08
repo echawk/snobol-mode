@@ -1,0 +1,14 @@
+* snobol-mode
+
+This package provides a pretty bare-bones snobol4 major mode for Emacs.
+Just enough to make using the language a little less awful.
+
+** Installation
+
+If you are on Emacs>=30, you can use the following `use-package` declaration:
+
+#+begin_src elisp
+(use-package snobol-mode
+   :vc (:url "https://github.com/ehawkvu/snobol-mode")
+   :mode ("\\.sno" . snobol-mode))
+#+end_src
