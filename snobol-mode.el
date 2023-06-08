@@ -57,6 +57,7 @@
   (let ((map (make-sparse-keymap)))
     (define-key map [?\C-c?\C-p] 'run-snobol)
     (define-key map [?\C-c?\C-b] 'snobol-send-buffer)
+    (define-key map [?\C-c?\C-c] 'compile)
     map))
 
 (define-generic-mode snobol-mode
