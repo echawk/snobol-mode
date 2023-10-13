@@ -1,11 +1,15 @@
-;;; snobol-mode.el --- snobol mode
+;;; snobol-mode.el --- A snobol4 mode -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2022-2023  Ethan Hawk
 ;; Copyright (C) 2012  Shae Erisson
 
 ;; Author: Ethan Hawk <ethan.hawk@valpo.edu>
 ;; Author: Shae Erisson <shae@ScannedInAvian.com>
+;; Homepage: https://github.com/ehawkvu/snobol-mode
 ;; Keywords: languages
+;; Package-Requires: ((emacs "24.1"))
+;; Version: 1.0.0
+;; License: GPLv3
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -22,6 +26,9 @@
 
 ;;; Commentary:
 
+;; A pretty barebones snobol4 mode for Emacs.
+;; Just enough to make it suck a little less.
+
 ;; developed from https://hub.darcs.net/shapr/snobolcs410w/browse/snobol-mode.el
 ;; who adapted it from http://claystuart.blogspot.com/2012/09/a-snobol4-major-mode-for-emacs.html
 ;; who got it from http://emacs-fu.blogspot.com/2010/04/creating-custom-modes-easy-way-with.html
@@ -29,15 +36,19 @@
 (require 'generic-x) ;; required
 (require 'comint)
 
-(defconst snobol4-interp "snobol4")
-(defconst spitbol-compil "spitbol")
+(defconst snobol-snobol4-cmd "snobol4")
+(defconst snobol-spitbol-cmd "spitbol")
+
+(defvar snobol-prefer-spitbol-p nil)
 
 ;;; Code:
 
-(defun run-snobol ()
-  "Start `snobol4-interp` via `comint-run`."
+(defun snobol-run ()
+  "Start `snobol-snobol4-cmd' via `comint-run`."
   (interactive)
-  (make-comint "snobol4" snobol4-interp))
+  (if snobol-prefer-spitbol-p
+      (make-comint "snobol4" snobol-spitbol-cmd)
+    (make-comint "snobol4" snobol-snobol4-cmd)))
 
 (defun snobol-send-buffer ()
   "Sends the current buffer to *snobol4* buffer."
@@ -55,7 +66,7 @@
 
 (defvar snobol-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map [?\C-c?\C-p] 'run-snobol)
+    (define-key map [?\C-c?\C-p] 'snobol-run)
     (define-key map [?\C-c?\C-b] 'snobol-send-buffer)
     (define-key map [?\C-c?\C-c] 'compile)
     map))
@@ -88,8 +99,8 @@
             (set (make-local-variable 'compile-command)
                  (concat
                   ;; Check for spitbol & snobol; prefer spitbol to snobol4.
-                  (let ((spitbol (executable-find spitbol-compil))
-                        (snobol  (executable-find snobol4-interp)))
+                  (let ((spitbol (executable-find snobol-spitbol-cmd))
+                        (snobol  (executable-find snobol-snobol4-cmd)))
                     (if spitbol
                         spitbol
                       snobol))
