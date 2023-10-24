@@ -33,6 +33,8 @@
 ;; who adapted it from http://claystuart.blogspot.com/2012/09/a-snobol4-major-mode-for-emacs.html
 ;; who got it from http://emacs-fu.blogspot.com/2010/04/creating-custom-modes-easy-way-with.html
 
+;;; Code:
+
 (eval-when-compile
   (require 'generic-x)
   (require 'comint))
@@ -40,9 +42,7 @@
 (defconst snobol-snobol4-cmd "snobol4")
 (defconst snobol-spitbol-cmd "spitbol")
 
-(defvar snobol-prefer-spitbol-p nil)
-
-;;; Code:
+(defcustom snobol-prefer-spitbol-p nil)
 
 (defun snobol-run ()
   "Start `snobol-snobol4-cmd' via `comint-run`."
