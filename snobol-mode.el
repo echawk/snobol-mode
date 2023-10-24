@@ -47,9 +47,7 @@
 (defun snobol-run ()
   "Start `snobol-snobol4-cmd' via `comint-run`."
   (interactive)
-  (if snobol-prefer-spitbol-p
-      (make-comint "snobol4" snobol-spitbol-cmd)
-    (make-comint "snobol4" snobol-snobol4-cmd)))
+  (make-comint "snobol4" snobol-snobol4-cmd))
 
 (defun snobol-send-buffer ()
   "Sends the current buffer to *snobol4* buffer."
@@ -101,11 +99,9 @@
             (set (make-local-variable 'compile-command)
                  (concat
                   ;; Check for spitbol & snobol; prefer spitbol to snobol4.
-                  (let ((spitbol (executable-find snobol-spitbol-cmd))
-                        (snobol  (executable-find snobol-snobol4-cmd)))
-                    (if spitbol
-                        spitbol
-                      snobol))
+                  (if snobol-prefer-spitbol-p
+                      snobol-spitbol-cmd
+                    snobol-snobol4-cmd)
                   " "
                   buffer-file-name))))
 
