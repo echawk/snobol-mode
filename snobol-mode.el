@@ -39,10 +39,14 @@
   (require 'generic-x)
   (require 'comint))
 
-(defconst snobol-snobol4-cmd "snobol4")
-(defconst snobol-spitbol-cmd "spitbol")
+(defconst snobol-snobol4-cmd "snobol4"
+  :type 'string)
+(defconst snobol-spitbol-cmd "spitbol"
+  :type 'string)
 
-(defcustom snobol-prefer-spitbol-p nil)
+(defcustom snobol-prefer-spitbol-p nil
+  "Set to t to use the spitbol executable instead of the standard snobol4."
+  :type 'boolean)
 
 (defun snobol-run ()
   "Start `snobol-snobol4-cmd' via `comint-run`."
